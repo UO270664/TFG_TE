@@ -252,7 +252,7 @@ def casacion_II(x,cuota,df):
 maxdemanda = max(df["demanda"])
 fcuota = np.array([0.20,0.16,0.18,0.06,0.40])
 cuota = maxdemanda * fcuota
-'''
+
 OPTIMIZAR = "Greedy"
 if OPTIMIZAR == "Greedy":
     x = np.array([0, 0.5]*5+[0])
@@ -279,7 +279,7 @@ xrpred, _ = pred_casacion_II(x,cuota,pd.DataFrame({"demanda":xrange[:,0]}))
 muestraErrores(idx_train,idx_test,df,predtrain,predtest)
 print("Mostrando una combinación de lineales")
 dibujaCurva(X,y,xrange,xrpred)
-'''
+
 # --------------------------------------------------------------------------------------------
 # Curvas no lineales de oferta y demanda (una curva de oferta por agente, con capacidad limitada)
 # --------------------------------------------------------------------------------------------
@@ -348,7 +348,8 @@ OPTIMIZAR = "Greedy"
 if OPTIMIZAR == "Greedy":
     x = np.array([0.50,0.30,0.18,0.01,0.01]*5+[0.10]*25+[0])
     xtr = df.loc[idx_train,:].reset_index()
-    res = minimize(lambda x:casacion_III(x,cuota,xtr),x,method="L-BFGS-B",bounds=[(0,1)]*25+[(0,1),(0,1),(0,1),(0,1),(0,0.2)]*5+[(0,1)])
+    res = minimize(lambda x:casacion_III(x,cuota,xtr),x,method="Nelder-Mead",bounds=[(0,1)]*51)
+    #res = minimize(lambda x:casacion_III(x,cuota,xtr),x,method="L-BFGS-B",bounds=[(0,1)]*25+[(0,1),(0,1),(0,1),(0,1),(0,0.2)]*5+[(0,1)])  # restriccion
     x = res.x
 elif OPTIMIZAR == "PSO":
     # Mismo problema con PSO
